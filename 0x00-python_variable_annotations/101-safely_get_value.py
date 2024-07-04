@@ -1,20 +1,25 @@
 #!/usr/bin/env python3
-# Module for safely getting a value from a mapping.
-from typing import TypeVar, Mapping, Any, Union, Optional
+"""More involved type annotations"""
+from typing import Mapping, Any, TypeVar, Optional
 
-T = TypeVar('T')  # Declare Type Variable
+T = TypeVar("T")
 
 
 def safely_get_value(dct: Mapping[Any, T], key: Any,
                      default: Optional[T] = None) -> Optional[T]:
-    """Get a value from a mapping safely with a default if the key is not found.
+    """safely_get_value function
+
+    Retrieve a value from a mapping with a default if the key is not found.
 
     Args:
-    dct (Mapping[Any, T]): The mapping.
-    key (Any): The key.
-    default (Optional[T], optional): The default.
+        dct (Mapping[Any, T]): Dictionary from which to retrieve the value.
+        key (Any): Key to search for in the dictionary.
+        default (Optional[T], optional): Default value if key not found.
 
     Returns:
-    Optional[T]: The value or the default.
+        Optional[T]: The value from the dictionary or the default.
     """
-    return dct.get(key, default)
+    if key in dct:
+        return dct[key]
+    else:
+        return default
