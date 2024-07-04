@@ -15,6 +15,7 @@ def add(a: float, b: float) -> float:
     """
     return a + b
 
+
 if __name__ == "__main__":
     add = __import__('0-add').add
     print(add(1.11, 2.22) == 1.11 + 2.22)
