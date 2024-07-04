@@ -10,5 +10,9 @@ def zoom_array(lst: Tuple, factor: int = 2) -> List:
 
 # Example usage
 array = (12, 72, 91)
+
+
 zoom_2x = zoom_array(array)  # Default factor of 2
+
+
 zoom_3x = zoom_array(array, 3)  # Custom factor of 3
