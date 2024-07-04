@@ -3,18 +3,18 @@
 from typing import Tuple, List, Union
 
 
-def zoom_array(lst: Union[Tuple, List], factor: int = 2) -> List:
+def zoom_array(lst: Union[Tuple[int, ...], List[int]], factor: int = 2) -> List[int]:
     """Increase the size of a tuple or list by repeating each element.
 
     Args:
-    lst (Union[Tuple, List]): The tuple or list to zoom.
+    lst (Union[Tuple[int, ...], List[int]]): The tuple or list to zoom.
     factor (int): The factor to repeat each element.
 
     Returns:
-    List: A list with each element repeated.
+    List[int]: A list with each element repeated.
     """
-    zoomed_in: List = [
-        item for item in lst for i in range(factor)
+    zoomed_in: List[int] = [
+        item for item in lst for _ in range(factor)
     ]
     return zoomed_in
 
