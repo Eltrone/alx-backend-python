@@ -3,6 +3,7 @@
 Module to perform addition of two float numbers.
 """
 
+
 def add(a: float, b: float) -> float:
     """Add two float numbers and return the result.
 
