@@ -2,14 +2,15 @@
 """Duck typing - first element of a sequence"""
 from typing import Sequence, Any, Union, Optional
 
+
 def safe_first_element(lst: Sequence[Any]) -> Optional[Any]:
     """Duck typing - first element of a sequence
 
     Args:
-        lst (Sequence[Any]): The sequence from which the first element is returned.
+        lst (Sequence[Any]):sequence from which first element is returned.
 
     Returns:
-        Optional[Any]: The first element of the sequence or None if the sequence is empty.
+        Optional[Any]: first element of sequence or None if sequence is empty.
     """
     if lst:
         return lst[0]
