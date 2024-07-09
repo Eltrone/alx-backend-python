@@ -2,14 +2,14 @@
 """
 Module for comprehending values from an async generator.
 """
-from typing import List
 import asyncio
+from importlib import import_module
 
-async_comprehension = __import__('0-async_generator').async_generator
+async_generator = import_module("0-async_generator").async_generator
 
 
-async def async_comprehension() -> List[float]:
+async def async_comprehension():
     """
-    Asynchronously collects 10 random numbers from an async generator
+    Asynchronously collects 10 random numbers from async generator.
     """
     return [i async for i in async_generator()]
