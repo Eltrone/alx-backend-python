@@ -12,7 +12,7 @@ async_comprehension_module = import_module("1-async_comprehension")
 async_comprehension = async_comprehension_module.async_comprehension
 
 
-async def measure_runtime():
+async def measure_runtime() -> float:
     """
     Measure runtime of executing async_comprehension four times in parallel.
     """
