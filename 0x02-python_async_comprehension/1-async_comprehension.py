@@ -4,6 +4,7 @@ Module for comprehending values from an async generator.
 """
 import asyncio
 from importlib import import_module
+from typing import List
 
 async_generator = import_module("0-async_generator").async_generator
 
