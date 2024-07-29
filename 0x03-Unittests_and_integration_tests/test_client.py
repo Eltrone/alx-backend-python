@@ -32,7 +32,8 @@ class TestGithubOrgClient(unittest.TestCase):
         client = GithubOrgClient("org")
         self.assertEqual(client._public_repos_url, repos_url)
 
-    @patch('client.GithubOrgClient._public_repos_url', new_callable=PropertyMock)
+    @patch('client.GithubOrgClient._public_repos_url',
+           new_callable=PropertyMock)
     @patch('client.get_json')
     def test_public_repos(self, mock_get_json, mock_public_repos_url):
         """Test public_repos method."""
@@ -61,16 +62,19 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
+        """Setup for integration tests."""
         cls.get_patcher = patch('requests.get')
         cls.mock_get = cls.get_patcher.start()
-        cls.mock_get.return_value = Mock()
-        
-        def json_response():
-            if "orgs/org/repos" in args[0]:
-                return cls.repos_payload
-            return cls.org_payload
 
-    cls.mock_get.return_value.json = json_response
+        # Configuration de Mock pour simuler les réponses des requêtes HTTP
+        cls.mock_get.side_effect = cls.mocked_requests_get
+
+    @classmethod
+    def mocked_requests_get(cls, url, *args, **kwargs):
+        """Simule les réponses de requests.get en fonction de l'URL."""
+        if "orgs/org/repos" in url:
+            return Mock(json=lambda: cls.repos_payload)
+        return Mock(json=lambda: cls.org_payload)
 
     @classmethod
     def tearDownClass(cls):
