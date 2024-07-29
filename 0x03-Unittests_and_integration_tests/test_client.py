@@ -2,7 +2,7 @@
 """Unit tests for client module."""
 
 import unittest
-from unittest.mock import patch, PropertyMock
+from unittest.mock import patch, PropertyMock, Mock
 from parameterized import parameterized, parameterized_class
 from client import GithubOrgClient
 from fixtures import TEST_PAYLOAD
@@ -32,8 +32,7 @@ class TestGithubOrgClient(unittest.TestCase):
         client = GithubOrgClient("org")
         self.assertEqual(client._public_repos_url, repos_url)
 
-    @patch('client.GithubOrgClient._public_repos_url',
-           new_callable=PropertyMock)
+    @patch('client.GithubOrgClient._public_repos_url', new_callable=PropertyMock)
     @patch('client.get_json')
     def test_public_repos(self, mock_get_json, mock_public_repos_url):
         """Test public_repos method."""
@@ -65,9 +64,10 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
         """Setup for integration tests."""
         cls.get_patcher = patch('requests.get')
         cls.mock = cls.get_patcher.start()
-        cls.mock.side_effect = [
-            {"json": lambda: cls.org_payload},
-            {"json": lambda: cls.repos_payload}
+        cls.mock.return_value = Mock()
+        cls.mock.return_value.json.side_effect = [
+            lambda: cls.org_payload,
+            lambda: cls.repos_payload
         ]
 
     @classmethod
