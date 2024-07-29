@@ -87,25 +87,5 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
                          self.apache2_repos)
 
 
-class GithubOrgClient:
-    ORG_URL = "https://api.github.com/orgs/{org}"
-
-    def __init__(self, org_name):
-        self._org_name = org_name
-
-    @property
-    @memoize
-    def org(self):
-        """ Return processed org information """
-        url = self.ORG_URL.format(org=self._org_name)
-        return get_json(url)
-
-    @property
-    @memoize
-    def _public_repos_url(self):
-        """ Return the public repos URL. """
-        return self.org["repos_url"]
-
-
 if __name__ == '__main__':
     unittest.main()
