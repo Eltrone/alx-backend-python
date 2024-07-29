@@ -61,14 +61,16 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        """Setup for integration tests."""
         cls.get_patcher = patch('requests.get')
-        cls.mock = cls.get_patcher.start()
-        cls.mock.return_value = Mock()
-        cls.mock.return_value.json.side_effect = [
-            cls.org_payload,
-            cls.repos_payload
-        ]
+        cls.mock_get = cls.get_patcher.start()
+        cls.mock_get.return_value = Mock()
+        
+        def json_response():
+            if "orgs/org/repos" in args[0]:
+                return cls.repos_payload
+            return cls.org_payload
+
+    cls.mock_get.return_value.json = json_response
 
     @classmethod
     def tearDownClass(cls):
