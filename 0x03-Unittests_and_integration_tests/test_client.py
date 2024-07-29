@@ -7,6 +7,7 @@ from parameterized import parameterized, parameterized_class
 from client import GithubOrgClient
 from fixtures import TEST_PAYLOAD
 
+
 class TestGithubOrgClient(unittest.TestCase):
     """Tests for GithubOrgClient class."""
 
@@ -48,6 +49,7 @@ class TestGithubOrgClient(unittest.TestCase):
         """Test has_license method."""
         self.assertEqual(GithubOrgClient.has_license(repo, license_key), expected)
 
+
 @parameterized_class(('org_payload', 'repos_payload', 'expected_repos', 'apache2_repos'), TEST_PAYLOAD)
 class TestIntegrationGithubOrgClient(unittest.TestCase):
     """Integration tests for GithubOrgClient."""
@@ -72,6 +74,36 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
         client = GithubOrgClient("org")
         self.assertEqual(client.public_repos(), self.expected_repos)
         self.assertEqual(client.public_repos("apache-2.0"), self.apache2_repos)
+
+
+class TestIntegrationGithubOrgClient(unittest.TestCase):
+    """Integration tests for GithubOrgClient."""
+
+    @classmethod
+    def setUpClass(cls):
+        """Setup for integration tests."""
+        cls.get_patcher = patch('requests.get')
+        cls.mock = cls.get_patcher.start()
+        cls.mock.side_effect = [
+            {"json": lambda: cls.org_payload},
+            {"json": lambda: cls.repos_payload}
+        ]
+
+    @classmethod
+    def tearDownClass(cls):
+        """Clean up after tests."""
+        cls.get_patcher.stop()
+
+    def test_public_repos(self):
+        """Test public_repos with integration."""
+        client = GithubOrgClient("org")
+        self.assertEqual(client.public_repos(), self.expected_repos)
+
+    def test_public_repos_with_license(self):
+        """Test public_repos with specific license."""
+        client = GithubOrgClient("org")
+        self.assertEqual(client.public_repos(license="apache-2.0"), self.apache2_repos)
+
 
 if __name__ == '__main__':
     unittest.main()
